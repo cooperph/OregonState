@@ -1,0 +1,219 @@
+#!/bin/bash
+#  Scott Cooper - cooperph
+# Oregon State University - CS 344
+# Assignment 1 - stats program
+
+# stats -rows test_file
+#   $0    $1   $2
+
+# I could use the $# for this program, but for learning purposes
+# I made them variables
+choice=$1
+file=$2
+
+#For testing purposes
+#echo "choice name: $choice"
+#echo "filename: $file"
+
+#Checks to see if the file exists
+if [ ! -e $2 ]
+then
+        echo "Usage: stats {-rows|-cols} [file]"
+        exit 1
+fi
+
+#----- tempory storage files -----#
+tempFile=$$temp
+trap "rm -f $tempFile; exit 1" 1 2 15
+
+if [ "$#" -eq 2 -a ! -r "$2" ]
+then
+	echo "can't read $2" 1>&2
+	exit 1
+fi
+
+if [ "$#" -eq 1 ]
+then
+	while read line
+	do	
+		echo $line >> $tempFile
+	done
+else
+	cat "$2" > tempFile
+fi
+
+#Checks to see if $1 is a valid entry based on the parameters of the program
+# {-rows, -r* || -cols, -c*}
+# if the entry is not vaild, kicks out an error message and exits the script    
+#---------Rows--------#
+if [[ $choice = -rows ]] || [[ $choice = -r* ]]
+then
+        echo "rows"
+	echo " average       median"
+
+#Calculate the average by rows
+# Goes row by row and gets the sum and count for each row
+# will then calculate the average for each row and print the average
+# each loop will reset the sum and count  
+	while read -r p
+	do
+	    sum=0
+	    midNum=0	
+	    count=0
+	    median=0
+	        for i in $p
+	        do
+	        	array[$count]=$i
+			sum=`expr $sum + $i`
+        		count=`expr $count + 1`
+	        done
+	       # average=`expr $sum / $count`
+# this equation was taken off a stack overflow question
+# my otiginal equation (commented out above) would always 
+# round down, this one essentially adds .5 to each equation to 
+# help with rounding errors, since ints always round down
+		average=$((($sum + $count / 2) / $count))
+
+		
+#Calculate the median
+# take the array built by the average function and use the bubble sort
+# function to sort the numbers
+
+		for(( i=0; i<$count; i++ ))
+		do
+		    tempNum=${array[$i]}
+	   	    index=$i
+			for(( j=i+1; j<$count; j++))
+			do
+				if((array[j] < tempNum ))
+				then
+				    tempNum=${array[$j]}
+				    index=$j 
+				fi
+			done
+			temp=${array[$i]}
+			array[$i]=${array[$index]}
+			array[$index]=$temp
+		done
+
+		midNum=$(expr "$count" / 2 )
+		median=${array[midNum]}
+
+#   Print out the Average and Median from this loop of the file #
+	echo "  $average              $median"
+
+#--- used for testing to see the array lined up ---#
+# helped to debug why my logic wasn't working 
+	#printf '%s' "${array[@]}"
+	#printf '\n'
+	done < $2
+rm -f tempFile
+
+
+#-------- Columns ----------#
+
+elif [[ $choice = -cols ]] || [[ $choice = -c* ]]
+then
+       # echo "columns"
+#need to figure out the number of columns in the test file to build the 
+# correct number of column arrays
+#++ this was found on stack overflow ++# 
+	numCols=$(head -n 1 $2 | wc -w)
+	#echo "$numCols" #remove me*******
+#start the column number to 0 
+	numInColumn=0
+
+#calculate the average#
+# first need to get each column into it's own array 
+# use while loop to build the array for each column
+# build a new array while less than the total number of columns
+
+#----here -------#
+	while [ $numInColumn -lt "$numCols" ]
+	do
+	    count=0
+	    sum=0
+	    median=0
+	    middle=0
+
+#Get the current line into an array and start building the column array
+# array = line
+#colArray = column		
+		while read -r row
+		do
+			array=($row)
+#fills the correct column array with the cooresponding column
+# all in the first row will go into colArray[0] and continuing
+# to the end of the number of columns 
+			colArray[$count]=${array[$numInColumn]}
+#increment the count and repeat the loop
+			count=`expr $count + 1`		
+# done with the file now that the arrays are finished
+		done < $2
+
+#Calculate the sum for the row and determine the average
+			for i in "${colArray[@]}"
+			do
+			sum=$(expr "$sum" + "$i")
+			done
+#determine th average and place into an array for the averages
+#--As stated above, this was found on stack overflow and allows --#
+# the average to be correctly rounded based on normal rounding rules
+		average=$((($sum + $count / 2) / $count)) 
+
+#place the average into the average arary
+		averageArray[$numInColumn]=$average
+
+#-- calculate the median --#
+#sort the array exactly how you did with the rows
+		for(( i=0; i<$count; i++ ))
+                do
+                    tempNum=${colArray[$i]}
+                    index=$i
+                        for(( j=i+1; j<$count; j++))
+                        do
+                                if((colArray[j] < tempNum ))
+                                then
+                                    tempNum=${colArray[$j]}
+                                    index=$j
+                                fi
+                        done
+                        temp=${colArray[$i]}
+                        colArray[$i]=${colArray[$index]}
+                        colArray[$index]=$temp
+                done
+# calculate the middle number
+# use this to place median= colArray[middle]
+# place the median into the median array
+# colNum++
+		middle=`expr $count / 2`
+		median=${colArray[middle]}
+		medianArray[$numInColumn]=$median
+		numInColumn=`expr $numInColumn + 1`
+	done
+
+#print off the average array
+	echo "Averages:"
+	for i in "${averageArray[@]}"
+	do
+		echo $i
+	done | column
+
+#print off the median array
+# done | column -> prints in a column
+	echo "Medians:"
+	for i in "${medianArray[@]}"
+	do
+		echo "${i}"
+	done | column
+#remove tempFile
+rm -f tempFile
+
+
+#------Display incorrect usage ------#
+# prints out the correct usage formula and exits the program
+else
+        echo "Usage: stats {-rows|-cols} [file]"
+	exit 1
+fi
+
