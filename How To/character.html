@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>How to</title>
+	<link rel="stylesheet" type="text/css" href="styles.css">
+    <link href="https://fonts.googleapis.com/css?family=Ubuntu+Condensed" rel="stylesheet">
+    <script src="character.js"></script>
+</head>
+
+<body style="background-color:#fff9e6">
+<!-- Top Part of Page -->
+	<div id="header">
+		<h2>Battle.net API How-To Guide
+		<h2>CS290 - Winter 2017 	
+	</div>
+	<hr>
+<!-- Links Bar -->
+	<div id="linksBar">
+		<ul>
+			<li><a href="index.html">Intro</a></li>
+			<li><a href="apikey.html">Your API Key</a></li>
+            <li><a href="jsonHelper.html">Json Helper</a></li>
+			<li><a href="realmstatus.html">Realm Status</a></li>
+			<li><a href="character.html">Character</a></li>
+			<li id="right"><a href="https://dev.battle.net"><img src="images/blizzAPILogo.png" ></a></li>
+		</ul>	
+	</div>
+	<hr>
+	
+	<div id="introText">
+    <h3>Access Character Portrait</h3>
+        <p>In this exercise we will explore how to retrieve a specific characters portrait from the WoW API.</p>
+        <p>To get us started I will show you a working example and we will go into more detail of how to accomplish this below. My buddy Jeeves will help us out on this one. Right now he is the default character, but once you submit a new character, my creation will go away. Why don't you give it a try!</p>
+        <p>I have automatially filled in the form for the character Maiella on the Realm Sargeras. You can look up for any active World of Warcraft character. If you have not logged into this character in a considerable amount of time, it will not return the picture. Here is a list of a few more characters you can try:</p>
+        <table border="1px solid black">
+          <tr>
+            <th>Realm</th>
+            <th>Name</th>
+          </tr>
+          <tr>
+            <td>Hyjal</td>
+            <td>Mooshuhalo</td>
+          </tr>
+          <tr>
+            <td>Sargeras</td>
+            <td>Shokazula</td>
+          </tr>
+          <tr> 
+            <td>Hippieflip</td>
+            <td>Zul'jin</td>
+          </tr>
+        </table>
+        <br>
+<!-- Character picture building -->
+      <div id="introText">
+        <form>
+          <fieldset>
+            <legend>Character Picture</legend>
+            <label for="realm">Realm:</label>
+            <input value="Sargeras" type="text" name="realm" id="realm">
+            <label for="charname">Character:</label>
+            <input value="Maiella" type="text" name="charname" id="charname">
+            <input type="submit" id="urlSubmit">
+          </fieldset>
+        </form>
+          <h2>Character Portrait</h2>
+             <ul>
+              <li><span id="cname">Jeeves</span></li>
+              <li><span>Faction: </span><span id="faction">Neutral</span></li>
+              <li><img src="images/jeeves1.png" id="myimage"></span></li>
+             </ul>
+         <!-- <h3>Reputation</h3>
+              <li><span>Name: </span><span id="repName"></span></li>
+              <li><span>Standing: </span><span id="repStanding"></span></li>
+              <li><span>Value: </span><span id="repValue">%</span></li>
+        -->
+      </div>
+<!-- Content after the character picture -->
+        <p>Lets break this down into steps and learn how to get this working.</p>
+        <h3>Step 1</h3>
+        <p>Build the Form in HTML</p>
+        <p>Just like in the earlier example, we first need to build a form in HTML that we can then use to get our values that we want to look up with Javascript.</p>
+        <img src="images/char1.png">
+        <p>As you can see with the above code we are creating a form that has two seperate text boxes and a submit button. Each of these will have its' own unique name and id property, which will be used by our Javascript to get these values.</p>
+        <h3>Step 2</h3>
+        <p>Submit Button</p>
+        <p>Just like in the Previous example, we need to create an event listener in Javascript to process this form on the same page. If we used the HTML form GET submission, then we would have to reload the page, which is not what we are looking to do. The Javascript makes it so that the page is more streamline and not something from 1995.</p>
+        <img src="images/char2.png">
+        <p>When the event happens the function characterDerails() will be called nd processed. Nothing new, but helps makes the page be more interactive.</p>
+        <h3>Step 3</h3>
+        <p>Javascript Function</p>
+        <p>Just like in the previous section, we will break up the function into more manageable part. Let's be honest, nobody wants to read a wall of text. This next picture will be the entire Javascript function and following that we will go into more detail about each part.</p>
+        <img src="images/char3.png">
+        <h3>Step 3.1</h3>
+        <p>API Call URL</p>
+        <p>Like every call that you do to an API, you need to create the specific URL. Below is the URL needed for this API call.</p>
+        <div id="codeText"><p>https://us.api.battle.net/wow/character/Sargeras/Maiella?locale=en_US&apikey=a4mttk38ykqdj8ynjw6bzd3hab7sk46s</p></div>
+        <p>Like the Realm Status function, we are going to make it so this only works for a character on a US server. You can expand this so it will check characters from other regions, however, this API key will only work for US servers. If you'd like to queue data from another region, then you will need another API key for each of the other regions and use the apporpriate key for the region selected.</p>
+        <p>Now that we know how to build our URL, we can use Javascript to take this static URL and make it dynamic. Below I have broken the URL into different pieces. We need to rebuld the URL so that it fits our needs.</p>
+        <img src="images/char4.png">
+        <p>The variable 'opening' contains the starting static portion of the URL. Remember, this will ONLY work for a US server. Changes would have to made to this part of the URL to make it work for another region.</p>
+        <p>The variable 'serv' is created by reading the values from our form. We determined that this was a dynamic portion of the URL by using the documentation to look of a few different characters and comparing the URLs.</p>
+        <p>The variables 'fields' and 'apiPart' are information that will not change and thusly have been hard coded. The only dymanic part of this is the apiKey, which was defined earlier.</p>
+        <p>Since Javascript allows you to easily concatinate variables, we create the variable owmURL and we now have a working API Call URL.</p>
+        <h3>Thumbnail</h3>
+        <p>After we send off our call, we get a response. In this response we will get the following JSON Object.</p>
+        <img src="images/thumbnailChar.png">
+        <p>In here we can see all of the returned information. For our character portrait, we care about the 'thumbnail' attribute. All of the other information is wonderful and can be used to build up other information about this character.</p>
+        <p>This thumbnail arrtibute is only part of the puzzle. Sadly, here is a place where the API documentation does not hep you. The documentation will not tell you how to use this information. I was able to figure it out by the help of the WoW Develpoment Community. Below is the missing piece to the puzzle.</p>
+        <div id="codeText"><p>'https://render-api-us.worldofwarcraft.com/static-render/us/' + thumbnail</p></div>
+        <p>Now that we have the final piece to the puzzle we can create the link to the character portrait.</p>
+        <h3>Step 4</h3>
+        <p>Extra Functions</p>
+        <p>As you can see in the returned JSON Object, we aren't always given text for our attributes. So, there are times where you will need to create your own Javascript functions to interpret the values from intergers to strings. In the above working example we showed: character name, faction, and portrait. In order to determine the faction we needed to run our result through another function.</p>
+        <img src="images/getFaction2.png"><br>
+        <img src="images/getFaction.png">
+        <p>From the original JSON Object we looked at the attribute for faction. Since I know that the character Maiella from Sargeras is an Alliance player, we can determine that the values of '0' would stand for Alliance and that '1' would be for Horde. This is easily proved by looking up a character that if horde and looking at the value for the faction attribute.</p>
+        <p>As you can see from the code above, we just do a simple function call on the response and we can determine our faction.</p>
+        <br>
+        <p>BLAM! You can now find character portraits for specific characters. This can be quite ueful if you want to automatically upload character pictures for your guild website or forum board.</p>
+        <h3>THANK YOU!</h3>
+        <p>This is the end of my tutorial on how to use the WoW API. I hope that this infomation will help you to create tons of exciting new material. I appreciate you taking the time to work through this and I hope that this will sever as a help to getting started. Until next time, Happy Questing!</p>
+        
+        
+	</div>
+            
+<!-- Navigation Bar at Bottom -->
+    <div id="linksBar" class="center">
+      <ul>
+        <li><a href="realmstatus.html"><img src="images/arrowleft.png"><br>Prev</a></li>   
+        <li><a href=""><img src="images/logo1.png"><br>Character</a></li>    
+      </ul>
+    </div>

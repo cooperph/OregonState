@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>How to</title>
+	<link rel="stylesheet" type"text/css" href="styles.css">
+    <link href="https://fonts.googleapis.com/css?family=Ubuntu+Condensed" rel="stylesheet">
+	
+</head>
+
+<body style="background-color:#fff9e6">
+<!-- Top Part of Page -->
+	<div id="header">
+		<h2>Battle.net API How-To Guide
+		<h2>CS290 - Winter 2017 	
+	</div>
+	<hr>
+<!-- Links Bar -->
+	<div id="linksBar">
+		<ul>
+			<li><a href="index.html">Intro</a></li>
+			<li><a href="apikey.html">Your API Key</a></li>
+            <li><a href="jsonHelper.html">Json Helper</a></li>
+			<li><a href="realmstatus.html">Realm Status</a></li>
+			<li><a href="character.html">Character</a></li>
+			<li id="right"><a href="https://dev.battle.net"><img src="images/blizzAPILogo.png" ></a></li>
+		</ul>	
+	</div>
+	<hr>
+  <div id="introText">
+    <p>When working with API calls, we will be returned a JSON Object. As we can see from the JSON Object below, they can be quite difficult to determe which values go with each attribute.</p>
+    <img src="images/nojsonext.png">
+    <p>This example isn't too bad, but if we are returned an Object that has a lot more attributes, then we will struggle to determine what goes where. An example of this can be found <a href="https://us.api.battle.net/wow/mount/?locale=en_US&apikey=a4mttk38ykqdj8ynjw6bzd3hab7sk46s
+" target="_blank">HERE</a>. This JSON Object shows all the possible mounts in the game World of Warcraft. There must be a better way to view these JSON Objets. Well, my Apprentance Engineer, you're in luck! It's time to fix that broken "I win" button and make our lives a lot easier!</p>
+    <p>The tool we will be using is called JSONView. This allows adds formatting to our Object and makes it much easier for us to work with. Just like we learned in our earlier programming classes, code is a lot more readable and maintainable when it is formatted in a specific manner. I found out about this Chrome extension from <a href="https://www.youtube.com/channel/UCvjgXvBlbQiydffZU7m1_aw">The Coding Train</a>. This YouTube series has a lot of wonderful tutorials in a wide array of topics. I highly recommend his materials.</p>
+    
+    <h3>How to <a href="https://chrome.google.com/webstore/detail/jsonview/chklaanhfefbnpoihckbnefhakgolnmc?hl=en">Download JSON</a></h3>
+    <p>This only works in Google Chrome. If you use another browser search for their version of this addon.</p>
+    <ol>
+      <li>Google "Chrome Extension JSONview"</li>
+      <li>Click on the link</li>
+      <li>Click the Green button to add</li>
+      <li>KABLAM! You're done!</li>
+    </ol>
+            
+    <p>Now, with this new extension your JSON Object will now look like this!</p>
+    <img src="images/jsonext.png">
+    <p>As you can see, this is a ton easier to read and you can now quickly determine what values go with each attribute. We will be using this exact JSON Object later on and we will go into more detail then about how to use it.</p>
+    <br>
+    <p>You should now have your own API Key and should have JSONView set up. It's now time to get started with your first API call. Click the next arrow and we will get started!</p>
+  </div>       
+    <!-- Navigation Bar at Bottom -->
+    <div id="linksBar" class="center">
+      <ul>
+        <li><a href="apikey.html"><img src="images/arrowleft.png"><br>Prev</a></li>   
+        <li><a href=""><img src="images/logo1.png"><br>JSON</a></li>    
+        <li><a href="realmstatus.html"><img src="images/arrowright.png"><br>Next</a></li>
+      </ul>
+    </div>
+    
