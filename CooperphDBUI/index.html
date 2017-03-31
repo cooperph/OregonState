@@ -1,0 +1,55 @@
+<!-- Scott Cooper CS290 Winter 2017 
+     http://web.engr.oregonstate.edu/~cooperph/CooperphDBUI/ -->
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Workout Data: Scott Cooper CS290 Winter 2017</title>
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
+    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="style.css" type="text/css">
+  </head>
+  <body>
+  <div class="container">
+    <h2>Enter your workout: </h2>
+    <form>
+      <fieldset>
+        <label for="workout">Workout: </label>
+        <input type="text" name="workout" id="workout"><br/><br/>
+        <label for="reps">Number of Reps: </label>
+        <input type="text" name="reps" id="reps"><br/><br/>
+        <label for="weight">Weight Lifted: </label>
+        <input type="text" name="weight" id="weight"><br/><br/>
+        <label for="wo_date">Workout Date (yyyy-mm-dd): </label>
+        <input type="text" name="wo_date" id="wo_date"><br/><br/>
+        <label for="lbs">Lbs 1 or Kg 0): </label>
+        <input type="text" name="lbs" id="lbs"><br/><br/>
+        <input type="submit" id="workoutSubmit">
+	  </fieldset>
+    </form>
+    </div>
+    <div class="container" id="tablePut"></div>
+    <br/>
+    <!-- for modal box -->
+    <div id="editModal" class="modal">
+      <div class="modal-content">
+        <span class="close">x</span>
+        <input type="hidden" name="edit_id" id="edit_id"><br/>
+        <h3>Edit you workout data:</h3>
+        <label for"edit_workout">Workout Name: </label>
+        <input type="text" name="edit_workout" id="edit_workout"><br/><br/>
+        <label for"edit_reps">Number of reps: </label>
+        <input type="text" name="edit_reps" id="edit_reps"><br/><br/>
+        <label for"edit_weight">Weight lifted: </label>
+        <input type="text" name="edit_weight" id="edit_weight"><br/><br/>
+        <label for"edit_wo_date">Workout Date: </label>
+        <input type="text" name="edit_wo_date" id="edit_wo_date"><br/><br/>
+        <label for"edit_lbs">Lbs?: </label>
+        <input type="text" name="edit_lbs" id="edit_lbs"><br/><br/>
+        <input type="submit" id="editWorkout">
+      </div>
+    </div>
+    <script src="workoutClient.js"></script>
+  </body>
+</html>
